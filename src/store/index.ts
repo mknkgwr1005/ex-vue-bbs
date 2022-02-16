@@ -69,12 +69,12 @@ export default new Vuex.Store({
   getters: {
     /**
      * 記事一覧を取得する.
+     * @remarks 記事すべてを取り出す
      * @param state -state
      * @returns 記事一覧
      */
     getArticles(state): Array<Article> {
       console.log("イベント発生");
-
       return state.articles;
     },
   },

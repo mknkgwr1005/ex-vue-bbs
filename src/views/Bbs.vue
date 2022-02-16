@@ -23,8 +23,15 @@
     <div v-for="article of currentArticleList" v-bind:key="article.id">
       <div>投稿者名：{{ article.name }}</div>
       <div>投稿内容：{{ article.content }}</div>
+      <!-- 記事表示部分終了 -->
+      <!-- コメント表示部分開始 -->
+      <!-- コメントも配列であり複数あるため、別でfor文で1個1個取り出す必要がある -->
+      <div v-for="comment of article.commentList" v-bind:key="comment.id">
+        <div>コメント者名：{{ comment.name }}</div>
+        <div>コメント内容：{{ comment.content }}</div>
+      </div>
     </div>
-    <!-- 記事表示部分終了 -->
+    <!-- コメント表示部分終了 -->
   </div>
 </template>
 
@@ -39,8 +46,14 @@ export default class BbsClass extends Vue {
   private articleName = "";
   //   投稿内容
   private articleContent = "";
+  //   コメントの投稿者名
+  private commentName = "";
+  //   コメントの投稿内容
+  private commentContent = "";
+
   /**
    * 記事の取得.
+   * 記事すべてを取得している.
    */
   created(): void {
     this.currentArticleList = this.$store.getters.getArticles;
@@ -67,6 +80,10 @@ export default class BbsClass extends Vue {
       this.articleName = "";
       this.articleContent = "";
     }
+  }
+
+  addComment(articleId: number): void {
+    this.$store.commit("addComment", "articleId");
   }
 }
 </script>

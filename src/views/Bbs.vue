@@ -22,16 +22,20 @@
     <!-- 記事表示部分開始 -->
     <div v-for="article of currentArticleList" v-bind:key="article.id">
       <div>投稿者名：{{ article.name }}</div>
-      <div>投稿内容：{{ article.content }}</div>
-      <!-- 記事表示部分終了 -->
+      <div>
+        <pre>投稿内容：{{ article.content }}</pre>
+      </div>
       <!-- コメント表示部分開始 -->
       <!-- コメントも配列であり複数あるため、別でfor文で1個1個取り出す必要がある -->
       <div v-for="comment of article.commentList" v-bind:key="comment.id">
         <div>コメント者名：{{ comment.name }}</div>
-        <div>コメント内容：{{ comment.content }}</div>
+        <div>
+          <pre>コメント内容：{{ comment.content }}</pre>
+        </div>
       </div>
+      <!-- コメント表示部分終了 -->
     </div>
-    <!-- コメント表示部分終了 -->
+    <!-- 記事表示部分終了 -->
   </div>
 </template>
 

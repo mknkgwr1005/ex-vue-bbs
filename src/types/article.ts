@@ -1,4 +1,7 @@
 import { Comment } from "./comment";
+/**
+ * 記事を表すクラス.
+ */
 export class Article {
   constructor(
     //   記事id

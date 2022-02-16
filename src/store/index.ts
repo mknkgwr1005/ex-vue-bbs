@@ -41,6 +41,7 @@ export default new Vuex.Store({
     addComment(state, payload) {
       // 渡されたIDでの記事を検索する
       return (id: number) => {
+        // newArticlesにはこの時点で記事一覧すべてはいる
         const newArticles = state.articles.filter(
           (articles) => articles.id === id
         );
@@ -52,16 +53,28 @@ export default new Vuex.Store({
         return newArticle.commentList.unshift(payload);
       };
     },
+
+    deleteArticle(state, payload) {
+      const payloadIndex = indexOf(payload);
+      const articleIndex = indexOf(state.articles);
+      payload = new Array<Article>();
+      const deleteArticle = payload[0];
+      if (payloadIndex === articleIndex) {
+        payload.shift(deleteArticle);
+      }
+    },
   },
   actions: {},
   modules: {},
   getters: {
     /**
-     * 記事を取得する.
+     * 記事一覧を取得する.
      * @param state -state
      * @returns 記事一覧
      */
     getArticles(state): Array<Article> {
+      console.log("イベント発生");
+
       return state.articles;
     },
   },

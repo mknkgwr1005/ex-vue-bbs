@@ -33,14 +33,33 @@
           <pre>コメント内容：{{ comment.content }}</pre>
         </div>
       </div>
+      <!-- コメント入力欄 -->
+      <div>名前：<input type="text" v-model="commentName" /></div>
+      <div>
+        コメント：<br />
+        <textarea
+          name="comment"
+          id="comment"
+          cols="30"
+          rows="10"
+          v-model="commentContent"
+        ></textarea>
+      </div>
+      <div>
+        <button type="button" @click="addComment(article.id)">
+          コメント投稿
+        </button>
+      </div>
       <!-- コメント表示部分終了 -->
+      <!-- 記事表示部分終了 -->
     </div>
-    <!-- 記事表示部分終了 -->
+    <!-- コメント入力欄終了 -->
   </div>
 </template>
 
 <script lang="ts">
 import { Article } from "@/types/article";
+import { Comment } from "@/types/comment";
 import { Component, Vue } from "vue-property-decorator";
 @Component
 export default class BbsClass extends Vue {
@@ -67,27 +86,34 @@ export default class BbsClass extends Vue {
    * 記事の投稿.
    */
   addArticle(): void {
-    if (!(this.currentArticleList.length === 0)) {
-      const newId = this.currentArticleList[0].id + 1;
-      this.$store.commit(
-        "addArticle",
-        new Article(newId, this.articleName, this.articleContent, [])
-      );
-      this.articleName = "";
-      this.articleContent = "";
-    } else if (this.currentArticleList.length === 0) {
-      const newId = 0;
-      this.$store.commit(
-        "addArticle",
-        new Article(newId, this.articleName, this.articleContent, [])
-      );
-      this.articleName = "";
-      this.articleContent = "";
+    let newId = 0;
+    if (this.currentArticleList.length !== 0) {
+      newId = this.currentArticleList[0].id + 1;
+      //   this.$store.commit(
+      //     "addArticle",
+      //     new Article(newId, this.articleName, this.articleContent, [])
+      //   );
+      //   this.articleName = "";
+      //   this.articleContent = "";
     }
+
+    this.$store.commit("addArticle", {
+      // key:value
+      article: new Article(newId, this.articleName, this.articleContent, []),
+    });
+    this.articleName = "";
+    this.articleContent = "";
   }
 
   addComment(articleId: number): void {
-    this.$store.commit("addComment", "articleId");
+    this.$store.commit("addComment", {
+      comment: new Comment(
+        -1,
+        this.commentName,
+        this.commentContent,
+        articleId
+      ),
+    });
   }
 }
 </script>

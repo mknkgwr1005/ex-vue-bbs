@@ -25,11 +25,11 @@ export default new Vuex.Store({
      * 投稿記事を追加する.
      * @param state -state
      * @param payload -payload
-     * @returns 記事一覧を配列に追加する
+     * @remarks 記事一覧を配列に追加する
      */
     addArticle(state, payload) {
-      // 0コ目にいれる関数は？
-      state.articles.unshift(payload);
+      // payloadは連想配列をもらうことが一般的。payloadの中にあるarticle連想配列を挿入する
+      state.articles.unshift(payload.article);
     },
 
     /**
@@ -40,18 +40,23 @@ export default new Vuex.Store({
      */
     addComment(state, payload) {
       // 渡されたIDでの記事を検索する
-      return (id: number) => {
-        // newArticlesにはこの時点で記事一覧すべてはいる
-        const newArticles = state.articles.filter(
-          (articles) => articles.id === id
-        );
-        // 1件の記事全体を取得する
-        const newArticle = newArticles[0];
-        // 渡されたpayloadからコメントオブジェクト生成する
-        payload = new Array<Comment>();
-        // コメントリストにコメントを追加する
-        return newArticle.commentList.unshift(payload);
+      // newArticlesにはこの時点で記事一覧すべてはいる
+      const newArticles = state.articles.filter(
+        (articles) => articles.id === payload.comment.articleid
+      );
+      // 1件の記事全体を取得する
+      const newArticle = newArticles[0];
+      // 渡されたpayloadからコメントオブジェクト生成する
+      const newComment = {
+        comment: new Comment(
+          payload.comment.id,
+          payload.comment.name,
+          payload.comment.content,
+          payload.comment.articleid
+        ),
       };
+      // コメントリストにコメントを追加する
+      newArticle.commentList.unshift(newComment.comment);
     },
 
     deleteArticle(state, payload) {

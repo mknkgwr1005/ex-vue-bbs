@@ -1,11 +1,5 @@
 <template>
-  <div>
-    <div id="app">
-      <div class="top-wrapper">
-        <router-view></router-view>
-      </div>
-    </div>
-  </div>
+  <div>掲示板画面作成</div>
 </template>
 
 <script lang="ts">

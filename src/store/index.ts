@@ -8,6 +8,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   strict: true,
   state: {
+    // 記事一覧
     articles: [
       new Article(3, "佐藤", "佐藤さんの記事", []),
       new Article(2, "山田", "山田さんの記事", [
@@ -20,15 +21,43 @@ export default new Vuex.Store({
     ],
   },
   mutations: {
-    addArticle(state, payload): Array<Article> {
-      return (state.articles[0] += payload);
+    /**
+     * 投稿記事を追加する.
+     * @param state -state
+     * @param payload -payload
+     * @returns 記事一覧を配列に追加する
+     */
+    addArticle(state, payload) {
+      // 0コ目にいれる関数は？
+      state.articles.unshift(payload);
+    },
+
+    /**
+     *コメントの追加.
+     * @param state -state
+     * @param payload -payload
+     * @returns コメントの追加
+     */
+    addComment(state, payload) {
+      // 渡されたIDでの記事を検索する
+      return (id: number) => {
+        const newArticles = state.articles.filter(
+          (articles) => articles.id === id
+        );
+        // 1件の記事全体を取得する
+        const newArticle = newArticles[0];
+        // 渡されたpayloadからコメントオブジェクト生成する
+        payload = new Array<Comment>();
+        // コメントリストにコメントを追加する
+        return newArticle.commentList.unshift(payload);
+      };
     },
   },
   actions: {},
   modules: {},
   getters: {
     /**
-     * 記事を取得する
+     * 記事を取得する.
      * @param state -state
      * @returns 記事一覧
      */

@@ -19,7 +19,21 @@ export default new Vuex.Store({
       ]),
     ],
   },
-  mutations: {},
+  mutations: {
+    addArticle(state, payload): Array<Article> {
+      return (state.articles[0] += payload);
+    },
+  },
   actions: {},
   modules: {},
+  getters: {
+    /**
+     * 記事を取得する
+     * @param state -state
+     * @returns 記事一覧
+     */
+    getArticles(state): Array<Article> {
+      return state.articles;
+    },
+  },
 });

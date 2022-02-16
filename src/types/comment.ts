@@ -1,4 +1,7 @@
 export class Comment {
+  /**
+   * コメントを表すクラス.
+   */
   constructor(
     // コメントid
     private _id: number,

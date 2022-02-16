@@ -33,8 +33,11 @@ import { Article } from "@/types/article";
 import { Component, Vue } from "vue-property-decorator";
 @Component
 export default class BbsClass extends Vue {
+  // 現在投稿されている記事一覧
   private currentArticleList = new Array<Article>();
+  //   投稿者名
   private articleName = "";
+  //   投稿内容
   private articleContent = "";
   /**
    * 記事の取得.

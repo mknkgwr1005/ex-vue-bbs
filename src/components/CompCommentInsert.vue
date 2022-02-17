@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div id="error">
+    <div id="error" v-if="errorFlag">
       <pre>
-          {{ errorMsg2 }}
+          {{ commentNameError }}
           </pre
       >
     </div>
@@ -11,6 +11,12 @@
       <input type="text" v-model="commentName" />
     </div>
     <div>
+      <div id="error" v-if="errorFlag">
+        <pre>
+          {{ commentContentError }}
+          </pre
+        >
+      </div>
       コメント：<br />
       <textarea
         name="comment"
@@ -35,29 +41,38 @@ export default class CompCommentInsert extends Vue {
   //   コメントの投稿内容
   private commentContent = "";
   // エラー
-  private errorMsg2 = "";
+  private commentNameError = "";
+  private commentContentError = "";
   //子コンポーネントからarticleIdを受け取る
   @Prop()
   private articleId!: number;
+  // errorflag
+  private errorFlag = false;
 
   /**
    * コメントを投稿する.
    */
   addComment(articleId: number): void {
-    this.errorMsg2 = "";
+    this.commentNameError = "";
+    this.commentContentError = "";
     if (this.commentName === "" && this.commentContent === "") {
-      this.errorMsg2 = "名前を入力してください\nコメントを入力してください";
+      this.errorFlag = true;
+      this.commentNameError = "名前を入力してください";
+      this.commentContentError = "コメントを入力してください";
       return;
     }
     if (this.commentName === "") {
-      this.errorMsg2 = "名前を入力してください\n";
+      this.errorFlag = true;
+      this.commentNameError = "名前を入力してください\n";
       return;
     } else if (this.commentName.length > 50) {
-      this.errorMsg2 = "名前は50字以内で入力してください\n";
+      this.errorFlag = true;
+      this.commentNameError = "名前は50字以内で入力してください\n";
       return;
     }
     if (this.commentContent === "") {
-      this.errorMsg2 += "コメントを入力してください\n";
+      this.errorFlag = true;
+      this.commentContentError += "コメントを入力してください\n";
       return;
     }
     // コメントの追加

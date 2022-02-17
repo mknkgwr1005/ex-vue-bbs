@@ -49,28 +49,13 @@
         </div>
       </div>
       <div id="error">
-        <pre>
-          {{ errorMsg2 }}
-          </pre
-        >
-      </div>
+
       <!-- コメント入力欄 -->
-      <div>名前：<input type="text" v-model="commentName" /></div>
+      <!-- コンポーネント化 子コンポーネントにarticle.idを属性として渡す(v-bind) -->
       <div>
-        コメント：<br />
-        <textarea
-          name="comment"
-          id="comment"
-          cols="30"
-          rows="10"
-          v-model="commentContent"
-        ></textarea>
+        <CompCommentInsert v-bind:article-id="article.id"></CompCommentInsert>
       </div>
-      <div>
-        <button type="button" @click="addComment(article.id)">
-          コメント投稿
-        </button>
-      </div>
+      <!-- コンポーネント終了 -->
     </div>
     <!-- コメント表示部分終了 -->
     <!-- 記事表示部分終了 -->
@@ -80,9 +65,13 @@
 
 <script lang="ts">
 import { Article } from "@/types/article";
-import { Comment } from "@/types/comment";
 import { Component, Vue } from "vue-property-decorator";
-@Component
+import CompCommentInsert from "@/components/CompCommentInsert.vue";
+@Component({
+  components: {
+    CompCommentInsert,
+  },
+})
 export default class BbsClass extends Vue {
   // 現在投稿されている記事一覧
   private currentArticleList = new Array<Article>();
@@ -91,6 +80,7 @@ export default class BbsClass extends Vue {
   //   投稿内容
   private articleContent = "";
   //   コメントの投稿者名
+  // private commentName = new Array<string>();
   private commentName = "";
   //   コメントの投稿内容
   private commentContent = "";
@@ -138,36 +128,6 @@ export default class BbsClass extends Vue {
     });
     this.articleName = "";
     this.articleContent = "";
-  }
-
-  /**
-   * コメントを投稿する.
-   */
-  addComment(articleId: number): void {
-    if (this.commentName === "" && this.commentContent === "") {
-      this.errorMsg2 = "";
-      this.errorMsg2 = "名前を入力してください\nコメントを入力してください";
-      return;
-    }
-    if (this.commentName === "") {
-      this.errorMsg2 = "";
-      this.errorMsg2 = "名前を入力してください";
-      return;
-    }
-    if (this.commentContent === "") {
-      this.errorMsg2 = "";
-      this.errorMsg2 += "\nコメントを入力してください";
-      return;
-    }
-    // コメントの追加
-    this.$store.commit("addComment", {
-      comment: new Comment(
-        -1,
-        this.commentName,
-        this.commentContent,
-        articleId
-      ),
-    });
   }
 
   /**

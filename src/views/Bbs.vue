@@ -89,12 +89,6 @@ export default class BbsClass extends Vue {
     let newId = 0;
     if (this.currentArticleList.length !== 0) {
       newId = this.currentArticleList[0].id + 1;
-      //   this.$store.commit(
-      //     "addArticle",
-      //     new Article(newId, this.articleName, this.articleContent, [])
-      //   );
-      //   this.articleName = "";
-      //   this.articleContent = "";
     }
 
     this.$store.commit("addArticle", {
@@ -105,6 +99,9 @@ export default class BbsClass extends Vue {
     this.articleContent = "";
   }
 
+  /**
+   * コメントを投稿する.
+   */
   addComment(articleId: number): void {
     this.$store.commit("addComment", {
       comment: new Comment(

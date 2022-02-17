@@ -59,14 +59,13 @@ export default new Vuex.Store({
       newArticle.commentList.unshift(newComment.comment);
     },
 
+    /**
+     * 記事の削除.
+     * @param state -state
+     * @param payload -payload
+     */
     deleteArticle(state, payload) {
-      const payloadIndex = indexOf(payload);
-      const articleIndex = indexOf(state.articles);
-      payload = new Array<Article>();
-      const deleteArticle = payload[0];
-      if (payloadIndex === articleIndex) {
-        payload.shift(deleteArticle);
-      }
+      state.articles.splice(payload.articleIndex, 1);
     },
   },
   actions: {},

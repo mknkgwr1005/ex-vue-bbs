@@ -78,14 +78,14 @@ export default class XXXComponent extends Vue {
       return;
     }
     // 記事の投稿.
-    let newId = 0;
-    if (this.currentArticleList.length !== 0) {
-      newId = this.currentArticleList[0].id + 1;
-    }
+    // let newId = 0;
+    // if (this.currentArticleList.length !== 0) {
+    //   newId = this.currentArticleList[0].id + 1;
+    // }
 
     this.$store.commit("addArticle", {
       // key:value
-      article: new Article(newId, this.articleName, this.articleContent, []),
+      article: new Article(-1, this.articleName, this.articleContent, []),
     });
     this.articleName = "";
     this.articleContent = "";

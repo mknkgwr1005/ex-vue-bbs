@@ -30,6 +30,13 @@ export default new Vuex.Store({
     addArticle(state, payload) {
       // payloadは連想配列をもらうことが一般的。payloadの中にあるarticle連想配列を挿入する
       state.articles.unshift(payload.article);
+      let newId = 0;
+      if (state.articles.length !== 0) {
+        newId = state.articles[0].id + 1;
+        payload.id.unshift(newId);
+      } else {
+        return;
+      }
     },
 
     /**

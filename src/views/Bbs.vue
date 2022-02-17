@@ -35,6 +35,7 @@
       <div>
         <pre>投稿内容：{{ article.content }}</pre>
       </div>
+      <div>{{ insertedMsg }}</div>
       <div>
         <button type="button" @click="deleteArticle(articleIndex)">
           記事削除
@@ -49,13 +50,15 @@
         </div>
       </div>
       <div id="error">
-
+        <pre>
+          {{ errorMsg2 }}
+          </pre
+        >
+      </div>
       <!-- コメント入力欄 -->
-      <!-- コンポーネント化 子コンポーネントにarticle.idを属性として渡す(v-bind) -->
       <div>
         <CompCommentInsert v-bind:article-id="article.id"></CompCommentInsert>
       </div>
-      <!-- コンポーネント終了 -->
     </div>
     <!-- コメント表示部分終了 -->
     <!-- 記事表示部分終了 -->
@@ -87,6 +90,8 @@ export default class BbsClass extends Vue {
   // エラー
   private errorMsg = "";
   private errorMsg2 = "";
+  // 投稿確認
+  private insertedMsg = "";
 
   /**
    * 記事の取得.
@@ -101,19 +106,21 @@ export default class BbsClass extends Vue {
    */
   addArticle(): void {
     // エラー文の表示
+    this.errorMsg = "";
     if (this.articleName === "" && this.articleContent === "") {
-      this.errorMsg = "";
-      this.errorMsg = "投稿者名を入力してください\n投稿内容を入力してください";
+      this.errorMsg +=
+        "投稿者名を入力してください\n投稿内容を入力してください\n";
       return;
     }
     if (this.articleName === "") {
-      this.errorMsg = "";
-      this.errorMsg = "投稿者名を入力してください";
+      this.errorMsg += "投稿者名を入力してください\n";
+      return;
+    } else if (this.articleName.length > 50) {
+      this.errorMsg += "名前は50字以内で入力してください\n";
       return;
     }
     if (this.articleContent === "") {
-      this.errorMsg = "";
-      this.errorMsg += "\n投稿内容を入力してください";
+      this.errorMsg += "投稿内容を入力してください\n";
       return;
     }
     // 記事の投稿.
@@ -128,6 +135,8 @@ export default class BbsClass extends Vue {
     });
     this.articleName = "";
     this.articleContent = "";
+    this.insertedMsg = "";
+    this.insertedMsg = "新たな投稿です。";
   }
 
   /**

@@ -44,21 +44,20 @@ export default class CompCommentInsert extends Vue {
    * コメントを投稿する.
    */
   addComment(articleId: number): void {
-    console.log(articleId);
-
+    this.errorMsg2 = "";
     if (this.commentName === "" && this.commentContent === "") {
-      this.errorMsg2 = "";
       this.errorMsg2 = "名前を入力してください\nコメントを入力してください";
       return;
     }
     if (this.commentName === "") {
-      this.errorMsg2 = "";
-      this.errorMsg2 = "名前を入力してください";
+      this.errorMsg2 = "名前を入力してください\n";
+      return;
+    } else if (this.commentName.length > 50) {
+      this.errorMsg2 = "名前は50字以内で入力してください\n";
       return;
     }
     if (this.commentContent === "") {
-      this.errorMsg2 = "";
-      this.errorMsg2 += "\nコメントを入力してください";
+      this.errorMsg2 += "コメントを入力してください\n";
       return;
     }
     // コメントの追加
